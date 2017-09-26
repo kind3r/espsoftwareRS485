@@ -158,7 +158,7 @@ int RS485SoftwareSerial::read()
 {
   if (!m_rxValid || (m_inPos == m_outPos))
     return -1;
-  uint8_t ch = m_buffer[m_outPos];
+  uint16_t ch = m_buffer[m_outPos];
   m_outPos = (m_outPos + 1) % m_buffSize;
   return ch;
 }
