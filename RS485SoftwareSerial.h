@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // Speed up to 115200 can be used.
 
 
-class RS485SoftwareSerial : public Stream
+class RS485SoftwareSerial //: public Stream
 {
 public:
    RS485SoftwareSerial(int receivePin, int transmitPin, bool inverse_logic = false, unsigned int buffSize = 64);
@@ -63,7 +63,7 @@ public:
    bool isListening() { return m_rxEnabled; }
    bool stopListening() { enableRx(false); return true; }
 
-   using Print::write;
+  //  using Print::write;
 
 private:
    bool isValidGPIOpin(int pin);
