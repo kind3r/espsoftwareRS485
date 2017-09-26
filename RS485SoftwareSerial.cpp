@@ -264,4 +264,8 @@ void ICACHE_RAM_ATTR RS485SoftwareSerial::rxRead()
   // Must clear this bit in the interrupt register,
   // it gets set even when interrupts are disabled
   GPIO_REG_WRITE(GPIO_STATUS_W1TC_ADDRESS, 1 << m_rxPin);
+
+  if(RS485Data) {
+    RS485Data();
+  }
 }
