@@ -1,0 +1,15 @@
+{
+  "name": "RS485SoftwareSerial",
+  "version": "1.0.0",
+  "keywords": [
+    "serial", "io", "softwareserial"
+  ],
+  "description": "Implementation of a sofware 9bit RS485 based on the implementation of the Arduino software serial for ESP8266.",
+  "repository":
+  {
+      "type": "git",
+      "url": "https://github.com/kind3r/espsoftwareRS485"
+  },
+  "frameworks": "arduino",
+  "platforms": "espressif8266"
+}
