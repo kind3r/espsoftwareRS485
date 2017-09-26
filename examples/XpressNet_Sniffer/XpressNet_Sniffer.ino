@@ -4,7 +4,7 @@
  * 
  * 
  * connect the RS485 shield TX to Pin 2
- * connect the RS485 shield RX to Pin 3
+ * connect the RS485 shield RX to Pin 4
  * connect RS485 RX/TX to Pin 5
  * 
  * only for ESP8266!
@@ -24,7 +24,7 @@ uint16_t callbyte = 0;    //Save Read Callbyte
 uint8_t lenout = 0;    //Zeiger Write Data
 uint8_t startbyte = 0; //start data packet
 
-RS485SoftwareSerial RS485(2, 3);
+RS485SoftwareSerial RS485(2, 4);
 
 void setup()
 {
@@ -35,12 +35,12 @@ void setup()
   Serial.println("XpressNet Sniffer");
   //set RS485 into 'read' Mode!
   pinMode(5, OUTPUT);
-  digitalWrite(5, LOW);
+  digitalWrite(5, HIGH);
 }
 
 void loop()
 {
-
+  read();
   //E3 F0 HAdr LAdr CRC
   //E7 40 (Dir,Speed) (Busy,F0,F4,F3,F2,F1) F5-F12 F13-F20 0x00 0x00 CRC
 
