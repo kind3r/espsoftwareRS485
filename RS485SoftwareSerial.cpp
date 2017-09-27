@@ -119,7 +119,7 @@ void RS485SoftwareSerial::begin(long speed, byte dataBits)
   // Use getCycleCount() loop to get as exact timing as possible
   m_bitTime = ESP.getCpuFreqMHz() * 1000000 / speed;
   m_dataBits = dataBits;
-
+  m_mask = 1 << (m_dataBits-1);
   if (!m_rxEnabled)
     enableRx(true);
 }
@@ -241,13 +241,12 @@ void ICACHE_RAM_ATTR RS485SoftwareSerial::rxRead()
   unsigned long wait = m_bitTime + m_bitTime / 3 - 500;
   unsigned long start = ESP.getCycleCount();
   uint16_t rec = 0;
-  uint16_t mask = 1 << m_dataBits;
   for (int i = 0; i < m_dataBits; i++)
   {
     rec >>= 1;
     WAIT;
     if (digitalRead(m_rxPin))
-      rec |= mask;
+      rec |= m_mask;
   }
   if (m_invert)
     rec = ~rec;
@@ -267,8 +266,4 @@ void ICACHE_RAM_ATTR RS485SoftwareSerial::rxRead()
   // Must clear this bit in the interrupt register,
   // it gets set even when interrupts are disabled
   GPIO_REG_WRITE(GPIO_STATUS_W1TC_ADDRESS, 1 << m_rxPin);
-
-  if(RS485Data) {
-    RS485Data();
-  }
 }

@@ -81,16 +81,9 @@ private:
    int m_buffSize;
    uint16_t *m_buffer;
    byte m_dataBits;
+   uint16_t m_mask;
    
 };
-
-#if defined (__cplusplus)
-extern "C" {
-#endif
-  extern void RS485Data() __attribute__((weak));
-#if defined (__cplusplus)
-}
-#endif
 
 // If only one tx or rx wanted then use this as parameter for the unused pin
 #define SW_SERIAL_UNUSED_PIN -1
