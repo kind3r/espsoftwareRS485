@@ -30,12 +30,10 @@ void setup()
 {
   //Set up on 62500 Baud
   RS485.begin(62500, 9);
+  RS485.setTransmitEnablePin(5, true);
 
   Serial.begin(115200);
   Serial.println("XpressNet Sniffer");
-  //set RS485 into 'read' Mode!
-  pinMode(5, OUTPUT);
-  digitalWrite(5, HIGH);
 }
 
 void loop()

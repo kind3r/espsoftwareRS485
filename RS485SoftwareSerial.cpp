@@ -127,14 +127,15 @@ long RS485SoftwareSerial::baudRate()
   return ESP.getCpuFreqMHz() * 1000000 / m_bitTime;
 }
 
-void RS485SoftwareSerial::setTransmitEnablePin(int transmitEnablePin)
+void RS485SoftwareSerial::setTransmitEnablePin(int transmitEnablePin, bool reverse)
 {
   if (isValidGPIOpin(transmitEnablePin))
   {
+    m_txEnableReverse = reverse;
     m_txEnableValid = true;
     m_txEnablePin = transmitEnablePin;
     pinMode(m_txEnablePin, OUTPUT);
-    digitalWrite(m_txEnablePin, LOW);
+    digitalWrite(m_txEnablePin, m_txEnableReverse ? HIGH : LOW);
   }
   else
   {
@@ -190,7 +191,7 @@ size_t RS485SoftwareSerial::write(uint16_t b)
   // Disable interrupts in order to get a clean transmit
   cli();
   if (m_txEnableValid)
-    digitalWrite(m_txEnablePin, HIGH);
+    digitalWrite(m_txEnablePin, m_txEnableReverse ? LOW : HIGH);
   unsigned long wait = m_bitTime;
   digitalWrite(m_txPin, HIGH);
   unsigned long start = ESP.getCycleCount();
@@ -207,7 +208,7 @@ size_t RS485SoftwareSerial::write(uint16_t b)
   digitalWrite(m_txPin, HIGH);
   WAIT;
   if (m_txEnableValid)
-    digitalWrite(m_txEnablePin, LOW);
+    digitalWrite(m_txEnablePin, m_txEnableReverse ? HIGH : LOW);
   sei();
   return 1;
 }

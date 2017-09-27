@@ -41,7 +41,7 @@ public:
 
    void begin(long speed, byte dataBits=8);
    long baudRate();
-   void setTransmitEnablePin(int transmitEnablePin);
+   void setTransmitEnablePin(int transmitEnablePin, bool reverse = false);
 
    bool overflow();
    int peek();
@@ -70,6 +70,7 @@ private:
 
    // Member variables
    int m_rxPin, m_txPin, m_txEnablePin;
+   bool m_txEnableReverse;
    bool m_rxValid, m_rxEnabled;
    bool m_txValid, m_txEnableValid;
    bool m_invert;
