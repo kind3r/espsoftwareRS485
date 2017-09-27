@@ -36,10 +36,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 class RS485SoftwareSerial //: public Stream
 {
 public:
-   RS485SoftwareSerial(int receivePin, int transmitPin, bool inverse_logic = false, unsigned int buffSize = 64);
+   RS485SoftwareSerial();
    ~RS485SoftwareSerial();
 
-   void begin(long speed, byte dataBits=8);
+   void setup(int receivePin, int transmitPin, bool inverse_logic = false, unsigned int buffSize = 64);
+   void begin(long speed = 62500, byte dataBits=9);
    long baudRate();
    void setTransmitEnablePin(int transmitEnablePin, bool reverse = false);
 

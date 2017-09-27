@@ -13,6 +13,7 @@ RS485SoftwareSerial	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
+setup KEYWORD2
 begin	KEYWORD2
 read	KEYWORD2
 write	KEYWORD2

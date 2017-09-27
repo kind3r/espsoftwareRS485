@@ -2,7 +2,7 @@
  * XpressNet Sniffer
  * Original Copyright (c) 04/2017 - 2017 Philipp Gahtow  All right reserved.
  * 
- * 
+ * Tested using Linksprite RS485 Shield V2.1 http://linksprite.com/wiki/index.php5?title=RS485_Shield_V2.1_for_Arduino
  * connect the RS485 shield TX to Pin 2
  * connect the RS485 shield RX to Pin 4
  * connect RS485 RX/TX to Pin 5
@@ -24,12 +24,13 @@ uint16_t callbyte = 0;    //Save Read Callbyte
 uint8_t lenout = 0;    //Zeiger Write Data
 uint8_t startbyte = 0; //start data packet
 
-RS485SoftwareSerial RS485(2, 4);
+RS485SoftwareSerial RS485;
 
 void setup()
 {
   //Set up on 62500 Baud
-  RS485.begin(62500, 9);
+  RS485.setup(2, 4);
+  RS485.begin();
   RS485.setTransmitEnablePin(5, true);
 
   Serial.begin(115200);

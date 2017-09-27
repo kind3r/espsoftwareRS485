@@ -66,13 +66,31 @@ static void (*ISRList[MAX_PIN + 1])() = {
     sws_isr_14,
     sws_isr_15};
 
-RS485SoftwareSerial::RS485SoftwareSerial(int receivePin, int transmitPin, bool inverse_logic, unsigned int buffSize)
+RS485SoftwareSerial::RS485SoftwareSerial()
 {
   m_rxValid = m_txValid = m_txEnableValid = false;
   m_buffer = NULL;
-  m_invert = inverse_logic;
   m_overflow = false;
   m_rxEnabled = false;
+}
+
+RS485SoftwareSerial::~RS485SoftwareSerial()
+{
+  enableRx(false);
+  if (m_rxValid)
+    ObjList[m_rxPin] = NULL;
+  if (m_buffer)
+    free(m_buffer);
+}
+
+bool RS485SoftwareSerial::isValidGPIOpin(int pin)
+{
+  return (pin >= 0 && pin <= 5) || (pin >= 12 && pin <= MAX_PIN);
+}
+
+void RS485SoftwareSerial::setup(int receivePin, int transmitPin, bool inverse_logic, unsigned int buffSize)
+{
+  m_invert = inverse_logic;
   if (isValidGPIOpin(receivePin))
   {
     m_rxPin = receivePin;
@@ -94,22 +112,6 @@ RS485SoftwareSerial::RS485SoftwareSerial(int receivePin, int transmitPin, bool i
     pinMode(m_txPin, OUTPUT);
     digitalWrite(m_txPin, !m_invert);
   }
-  // Default speed
-  begin(9600);
-}
-
-RS485SoftwareSerial::~RS485SoftwareSerial()
-{
-  enableRx(false);
-  if (m_rxValid)
-    ObjList[m_rxPin] = NULL;
-  if (m_buffer)
-    free(m_buffer);
-}
-
-bool RS485SoftwareSerial::isValidGPIOpin(int pin)
-{
-  return (pin >= 0 && pin <= 5) || (pin >= 12 && pin <= MAX_PIN);
 }
 
 void RS485SoftwareSerial::begin(long speed, byte dataBits)
